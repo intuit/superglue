@@ -1,0 +1,126 @@
+// COLORS
+$green01: #108000;
+$green02: #2ca01c;
+$green03: #53b700;
+$gray01: #393a3d;
+$gray02: #6b6c72;
+$gray03: #8d9096;
+$gray04: #babec5;
+$gray05: #d4d7dc;
+$gray06: #e3e5e8;
+$gray07: #eceef1;
+$gray08: #f4f5f8;
+$teal03: #00c1bf;
+$white: #fff;
+$black: #000;
+
+@mixin flex($direction) {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  @if $direction == column
+  {
+    -webkit-flex-direction:vertical;
+    -moz-flex-direction:vertical;
+    -ms-flex-direction:column;
+    -webkit-flex-direction:column;
+    flex-direction:column;
+  }
+  @else
+  {
+    -webkit-flex-direction:horizontal;
+    -moz-flex-direction:horizontal;
+    -ms-flex-direction:row;
+    -webkit-flex-direction:row;
+    flex-direction:row;
+  }
+}
+
+@mixin autoMargins {
+    margin: {
+        left: auto;
+        right: auto;
+    }
+}
+
+@mixin truncate($truncation-boundary) {
+    max-width: $truncation-boundary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  filter: alpha(opacity=($opacity * 100));
+}
+
+@mixin boxShadow( $h: 10px , $v: 10px , $b: 0px , $s: 0px , $c: #000000 ) {
+  -webkit-box-shadow: $h $v $b $s $c;
+  -moz-box-shadow: $h $v $b $s $c;
+  box-shadow: $h $v $b $s $c;
+}
+
+@mixin verticalAlign {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+
+@mixin inputPlaceholder() {
+    $selector: '';
+    $prefixes: (
+        moz: "::-moz",
+        webkit: "::-webkit",
+        ie: ":-ms"
+    );
+    @each $prop, $value in $prefixes {
+        @if $prop != "moz" {
+            $selector: #{$value}-input-placeholder;
+        } @else {
+            $selector: #{$value}-placeholder;
+        }
+        @if & {
+            &#{$selector} {
+                @content;
+            }
+        } @else {
+            #{$selector} {
+                @content;
+            }
+        }
+    }
+    &::placeholder {
+      @content;
+    }
+}
+
+@include inputPlaceholder() {
+    color: red;
+    font-weight: 300;
+    padding-top: 5px;
+}
+textarea {
+    @include inputPlaceholder() {
+        padding: 15px;
+    }
+}
+
+@mixin card {
+  border-radius: 10px;
+  @include boxShadow(0, 2px, 4px, 0, rgba(0, 0, 0, .1));
+  background: white;
+  padding: 1.5em;
+}

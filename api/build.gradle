@@ -1,0 +1,69 @@
+plugins {
+    id "play"
+    id "scala"
+    id "com.github.maiflai.scalatest" version "0.23"
+}
+
+def scalaVersion = "2.12"
+def playVersion = "2.6.21"
+
+// Play framework configuration
+model {
+    components {
+        play {
+            platform play: playVersion, scala: scalaVersion, java: '1.8'
+            injectedRoutesGenerator = true
+
+            sources {
+                twirlTemplates {
+                    defaultImports = TwirlImports.SCALA
+                }
+            }
+        }
+    }
+}
+
+// IntelliJ does not know where to find Play source files by default
+// Configure app/ as source, conf/ as resources, and test/ as tests
+sourceSets {
+    main {
+        scala.srcDirs files("app")
+        resources.srcDirs files("conf")
+    }
+    test {
+        scala.srcDirs files("test")
+    }
+}
+
+repositories {
+    // Use jcenter for resolving your dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+    mavenCentral()
+}
+
+configurations {
+    // Tell IntelliJ that dependencies marked "play" are like "implementation"
+    // This is required in order to have proper dependency resolution and
+    // code intelligence in IntelliJ
+    implementation.extendsFrom(play)
+    testImplementation.extendsFrom(playTest)
+}
+
+dependencies {
+    play project(":dao")
+    play project(":service")
+
+    play "com.typesafe.play:play_${scalaVersion}:${playVersion}"
+    play "com.typesafe.play:play-guice_$scalaVersion:$playVersion"
+    play "com.typesafe.play:play-logback_$scalaVersion:$playVersion"
+    play "com.typesafe.play:filters-helpers_$scalaVersion:$playVersion"
+
+    // Slick. Required for MappedTo macro
+    play "com.typesafe.slick:slick_${scalaVersion}:3.3.0"
+
+    play "net.logstash.logback:logstash-logback-encoder:4.11"
+
+    playTest "org.scalatestplus.play:scalatestplus-play_$scalaVersion:3.1.2"
+    playTest "org.pegdown:pegdown:1.4.2"
+}

@@ -1,0 +1,48 @@
+plugins {
+    // Apply the scala plugin to add support for Scala
+    id "scala"
+    id "org.scoverage" version "2.5.0"
+    id "com.github.maiflai.scalatest" version "0.23"
+}
+
+repositories {
+    // Use jcenter for resolving your dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+    mavenCentral()
+}
+
+def scala_minor_version = "2.12"
+
+dependencies {
+
+    implementation project(":dao")
+
+    // Automatic resource management
+    implementation "io.tmos:arm4s_${scala_minor_version}:1.1.0"
+
+    // Json serialization
+    implementation "com.typesafe.play:play-json_${scala_minor_version}:2.6.10"
+
+    // Stream editing
+    implementation "com.github.rwitzel.streamflyer:streamflyer-core:1.2.0"
+
+    // Slick DB dependencies
+    implementation "com.typesafe.slick:slick_${scala_minor_version}:3.3.0"
+    implementation "com.typesafe.slick:slick-hikaricp_${scala_minor_version}:3.3.0"
+    implementation "mysql:mysql-connector-java:8.0.15"
+
+    // Use Calcite parser
+    implementation 'org.apache.calcite:calcite-core:1.18.0'
+    implementation 'org.apache.calcite:calcite-server:1.18.0'
+
+    implementation "com.h2database:h2:1.4.199"
+
+    scoverage "org.scoverage:scalac-scoverage-plugin_${scala_minor_version}:1.4.0-M5",
+              "org.scoverage:scalac-scoverage-runtime_${scala_minor_version}:1.4.0-M5"
+}
+
+checkScoverage {
+    minimumRate = 0.75
+    coverageType = "Branch"
+}

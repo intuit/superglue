@@ -1,0 +1,31 @@
+.loadingImage {
+  width: 100px;
+  margin: auto;
+  animation-name: bounce;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+.notFound {
+  height: 100%;
+  margin: auto;
+  @include flex(column);
+  justify-content: center;
+
+  img {
+    display: block;
+    width: 50%;
+    margin: 0 auto;
+  }
+  p {
+    margin-top: 1em;
+    text-align: center;
+  }
+}
+
+@keyframes bounce {
+  0%   { transform: translateY(15px); opacity: 0.5}
+  50%  { transform: translateY(-15px); opacity: 1}
+  100% { transform: translateY(15px); opacity: 0.5}
+}
+

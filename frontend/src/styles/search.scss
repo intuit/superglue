@@ -1,0 +1,119 @@
+.brand {
+  text-align: center;
+  color: $green01;
+  font-size: 3rem;
+  margin: 0;
+  letter-spacing: -0.15rem;
+  margin-right: 0.5em;
+}
+
+.searchContainer {
+  width: 100%;
+  max-width: 1300px;
+  margin: auto;
+}
+
+.searchTopContainer {
+  @include flex(row);
+  margin-bottom: 1em;
+}
+
+.searchBarContainer {
+  @include flex(row);
+  background: $white;
+  width: 100%;
+  padding: 0 1em;
+  border-radius: 30px;
+  @include boxShadow(0, 2px, 4px, 0, rgba(0, 0, 0, .1));
+
+  .material-icons {
+    color: $gray04;
+    line-height: 2em;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .search {
+    margin-right: 0.3em;
+    cursor: default;
+  }
+
+  .close {
+    cursor: pointer;
+  }
+
+  .searchBar {
+    font-size: 0.8rem;
+    border: none;
+    width: 100%;
+    margin: auto;
+    font-weight: 500;
+    color: $gray01;
+    @include inputPlaceholder {
+      color: $gray04;
+    }
+  }
+}
+
+.searchTableContainer {
+  font-size: 0.7rem;
+  @include card;
+}
+
+.ReactTable {
+  text-align: left;
+  border: none !important;
+  font-weight: 500;
+  color: $gray03;
+
+  .rt-thead {
+    border-bottom: 2px solid $gray08;
+    padding: 1em 0;
+    box-shadow: none !important;
+
+    .rt-th {
+      border: none !important;
+      text-align: left;
+    }
+  }
+
+  .rt-tbody {
+    .rt-td {
+      border: none !important;
+
+      // entity name column
+      &:nth-child(2) {
+        font-weight: 700;
+        color: $green02;
+      }
+      // entity type column
+      &:nth-child(3) {
+        text-transform: capitalize;
+      }
+    }
+
+    .rt-tr-group {
+      padding: 1em 0;
+      cursor: pointer;
+    }
+  }
+
+  .-pagination {
+    margin-top: 1em;
+    border-top: none !important;
+    box-shadow: none !important;
+
+    .-btn {
+      font-weight: 500;
+      padding: 1em !important;
+      border-radius: 15px !important;
+      background: $green03 !important;
+      color: $white !important; 
+      @include transition(background 0.5s ease-in-out !important);
+
+      &:hover {
+        background: $green02 !important;
+      }
+    }
+  }
+}

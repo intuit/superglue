@@ -1,0 +1,129 @@
+{
+	"info": {
+		"_postman_id": "9a61bb70-4d6f-438b-83c2-c0863aaeee09",
+		"name": "Superglue",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Table Lineage",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0fb91383-3f7d-42d4-8682-9cfc2bf58786",
+						"exec": [
+							"const Ajv = require('ajv');",
+							"const ajv = new Ajv({logger: console});",
+							"",
+							"pm.test(\"Status code is 200\", function() {",
+							"   pm.response.to.have.status(200); ",
+							"});",
+							"",
+							"pm.test(\"Response has nodes and edges\", function() {",
+							"    const schema = {",
+							"        \"required\": [ \"nodes\", \"edges\" ],",
+							"        \"properties\": {",
+							"            \"nodes\": {",
+							"                \"type\": \"array\",",
+							"                \"items\": { \"type\": \"object\" }",
+							"            },",
+							"            \"edges\": {",
+							"                \"type\": \"array\",",
+							"                \"items\": { \"type\": \"object\" }",
+							"            }",
+							"        }",
+							"    };",
+							"    const json = pm.response.json();",
+							"    pm.expect(ajv.validate(schema, json)).to.be.true;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v1/lineage/table/:name?",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"lineage",
+						"table",
+						":name"
+					],
+					"query": [
+						{
+							"key": "bw",
+							"value": "1",
+							"description": "Backward depth. If present, this indicates the number of levels upstream from the current table to search for lineage. If absent, a full search is performed.",
+							"disabled": true
+						},
+						{
+							"key": "fw",
+							"value": "1",
+							"description": "Forward depth. If present, this indicates the number of levels downstream from the current table to search for lineage. If absent, a full search is performed.",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "",
+							"description": "The name of the table to search lineage for."
+						}
+					]
+				},
+				"description": "Fetches table lineage for the named table.\n\nTable lineage is represented by a graph whose nodes represent tables in a database, and whose edges represent the flow of data between those tables. We can think of a lineage graph as a combination of \"forward\" lineage and \"backward\" lineage.\n\nForward lineage describes all of the tables which are _downstream_ from this table. That is, the data from this target table is read and propagated through the tables in the forward lineage.\n\nBackward lineage describes all of the tables which are _upstream_ of this table. The data in this target table is derived in some way from the tables in the backward lineage."
+			},
+			"response": [
+				{
+					"name": "Table Lineage - User Retention",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/lineage/table/:name?bw=1&fw=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"lineage",
+								"table",
+								":name"
+							],
+							"query": [
+								{
+									"key": "bw",
+									"value": "1",
+									"description": "Backward depth. If present, this indicates the number of levels upstream from the current table to search for lineage. If absent, a full search is performed."
+								},
+								{
+									"key": "fw",
+									"value": "1",
+									"description": "Forward depth. If present, this indicates the number of levels downstream from the current table to search for lineage. If absent, a full search is performed."
+								}
+							],
+							"variable": [
+								{
+									"description": "The name of the table to search lineage for.",
+									"key": "name",
+									"value": "user_retention"
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n\t\"nodes\": [\n\t\t{\n\t\t\t\"id\": 0,\n\t\t\t\"name\": \"USER_RETENTION\",\n\t\t\t\"type\": \"table\"\n\t\t},\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"USERS\",\n\t\t\t\"type\": \"table\"\n\t\t},\n\t\t{\n\t\t\t\"id\": 2,\n\t\t\t\"name\": \"USER_ACTIVITY\",\n\t\t\t\"type\": \"table\"\n\t\t},\n\t\t{\n\t\t\t\"id\": 3,\n\t\t\t\"name\": \"USER_REPORTS\",\n\t\t\t\"type\": \"table\"\n\t\t}\n\t],\n\t\"edges\": [\n\t\t{ \"from\": 1, \"to\": 0 },\n\t\t{ \"from\": 2, \"to\": 0 },\n\t\t{ \"from\": 0, \"to\": 3 }\n\t]\n}"
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,13 @@
+.dashboardContainer {
+  @include flex(column);
+  @include card;
+  height: 100%;
+
+  h1 {
+    font-size: 1rem;
+  }
+}
+
+.networkContainer {
+  height: 100%;
+}

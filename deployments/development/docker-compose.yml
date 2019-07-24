@@ -1,0 +1,68 @@
+version: "3.7"
+services:
+  elastic:
+    image: "elasticsearch:6.7.1"
+    container_name: "elastic"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - "discovery.type=single-node"
+      - "http.cors.enabled=true"
+      - "http.cors.allow-origin=*"
+  mysql:
+    image: "mysql:8"
+    container_name: "mysql"
+    ports:
+      - "3314:3306"
+    expose:
+      - "3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "superglue_development"
+      MYSQL_DATABASE: "superglue"
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+  frontend:
+    image: "frontend"
+    build:
+      context: "../../frontend"
+      dockerfile: "../deployments/development/frontend/Dockerfile"
+    container_name: "frontend"
+    volumes:
+      - "../../frontend:/superglue/frontend"
+      - "/superglue/frontend/node_modules"
+    environment:
+      ELASTICSEARCH_HOST: "http://localhost:8080/elasticsearch"
+      GRAPH_HOST: "http://localhost:8080"
+    expose:
+      - "3000"
+    command: bash -c "yarn && yarn start:dev"
+  backend:
+    image: "backend"
+    build:
+      context: "../../"
+      dockerfile: "deployments/development/backend/Dockerfile"
+    container_name: "backend"
+    depends_on:
+      - "mysql"
+    volumes:
+      - "../../:/superglue/backend"
+      - "../../api/conf/application.dev.conf:/superglue/backend/api/conf/application.conf"
+    expose:
+      - "9000"
+    environment:
+      SUPERGLUE_DATABASE_URL: "jdbc:mysql://mysql:3306/superglue"
+      SUPERGLUE_DATABASE_USER: "root"
+      SUPERGLUE_DATABASE_PASSWORD: "superglue_development"
+    command: "./gradlew runPlayBinary"
+  nginx:
+    image: "nginx:1.15"
+    container_name: "nginx"
+    depends_on:
+      - "frontend"
+      - "backend"
+      - "elastic"
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./nginx.conf:/etc/nginx/nginx.conf:ro"

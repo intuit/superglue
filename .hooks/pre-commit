@@ -1,0 +1,11 @@
+#!/bin/sh
+
+git stash -q --keep-index
+
+./gradlew clean test checkScoverage
+
+RESULT=$?
+
+git stash pop -q
+
+exit $RESULT

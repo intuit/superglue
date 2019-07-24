@@ -1,0 +1,8 @@
+const LoadingState = {
+  NOT_LOADED: 'NOT_LOADED',
+  LOADING: 'LOADING',
+  FINISHED_SUCCESS: 'FINISHED_SUCCESS',
+  FINISHED_FAILURE: 'FINISHED_FAILURE',
+};
+
+export default LoadingState;

@@ -1,0 +1,36 @@
+subprojects {
+    tasks.withType(ScalaCompile) {
+        scalaCompileOptions.additionalParameters = ["-Xfatal-warnings"]
+        configure(scalaCompileOptions.forkOptions) {
+            jvmArgs = ["-Xss2m"]
+        }
+
+        def scala_minor_version = "2.12"
+
+        dependencies {
+            // Use Scala 2.12 in our scala projects
+            implementation "org.scala-lang:scala-library:2.12.7"
+
+            // Use typesafe logging
+            implementation "com.typesafe.scala-logging:scala-logging_${scala_minor_version}:3.9.2"
+
+            // Use pureconfig
+            implementation "com.github.pureconfig:pureconfig_${scala_minor_version}:0.10.1"
+
+            // Testing frameworks
+            testImplementation "junit:junit:4.12"
+            testImplementation "org.scalatest:scalatest_${scala_minor_version}:3.0.5"
+            testImplementation "org.scalacheck:scalacheck_${scala_minor_version}:1.14.0"
+            testImplementation "com.google.jimfs:jimfs:1.1"
+            testRuntimeOnly "org.pegdown:pegdown:1.4.2"
+        }
+    }
+}
+
+task('installGitHooks', type: Copy) {
+    from new File(rootProject.rootDir, '.hooks/pre-commit')
+    into { new File(rootProject.rootDir, '.git/hooks') }
+    fileMode 0777
+}
+
+project.task('build').dependsOn(installGitHooks)

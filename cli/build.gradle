@@ -1,0 +1,59 @@
+plugins {
+    // Apply the scala plugin to add support for Scala
+    id "scala"
+    id "application"
+    id "org.scoverage" version "2.5.0"
+    id "com.github.maiflai.scalatest" version "0.23"
+}
+
+repositories {
+    // Use jcenter for resolving your dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+    mavenCentral()
+}
+
+def scalaVersion = "2.12"
+def playVersion = "2.6.21"
+
+application {
+    mainClassName = "com.intuit.superglue.cli.Main"
+}
+
+dependencies {
+    implementation project(':parser')
+    implementation project(':dao')
+    implementation project(':service')
+    implementation project(":api")
+
+    implementation "com.typesafe.play:play_${scalaVersion}:${playVersion}"
+    implementation "com.typesafe.play:play-server_${scalaVersion}:2.6.21"
+
+    // Json serialization
+    implementation "com.typesafe.play:play-json_${scalaVersion}:2.6.10"
+
+    // Logback logging driver
+    implementation "com.typesafe.scala-logging:scala-logging_${scalaVersion}:3.9.2"
+    implementation "ch.qos.logback:logback-classic:1.2.3"
+
+    // Picocli command-line argument parser
+    implementation "info.picocli:picocli:3.9.5"
+
+    // Elasticsearch client
+    implementation "com.sksamuel.elastic4s:elastic4s-http_${scalaVersion}:6.5.1"
+
+    scoverage "org.scoverage:scalac-scoverage-plugin_${scalaVersion}:1.4.0-M5",
+              "org.scoverage:scalac-scoverage-runtime_${scalaVersion}:1.4.0-M5"
+}
+
+startScripts.applicationName = "superglue"
+
+installDist {
+    def homeDir = System.properties['user.home']
+    into "${homeDir}/.superglue"
+    doLast {
+        println 'Superglue installed. You may need to add the following line to your ~/.bashrc'
+        println 'export PATH="${HOME}/.superglue/bin:${PATH}"'
+        println 'Then check out usage by running superglue --help'
+    }
+}

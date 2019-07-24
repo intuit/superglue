@@ -1,0 +1,28 @@
+rules:
+  leading-zero: 0
+  function-name-format:
+    - 1
+    - allow-leading-underscore: false
+      convention: camelcase
+  mixin-name-format:
+    - 2
+    - allow-leading-underscore: false
+      convention: camelcase
+  placeholder-name-format:
+    - 2
+    - allow-leading-underscore: false
+      convention: camelcase
+  class-name-format:
+    - 1
+    - allow-leading-underscore: false
+      convention: camelcase
+  nesting-depth:
+    - 2
+    - max-depth: 3
+  property-sort-order:
+    - 1
+    - ignore-custom-properties: false
+  no-duplicate-properties:
+    - ignore_consecutive:
+      - background
+      - transition

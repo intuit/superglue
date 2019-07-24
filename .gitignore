@@ -1,0 +1,35 @@
+.idea/
+build/
+out/
+.gradle/
+!gradle-wrapper.jar
+*.iml
+/superglue.conf
+
+*.class
+*.log
+**/*.sc
+
+# sbt specific
+.cache
+.history
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+
+# Scala-IDE specific
+.scala_dependencies
+.worksheet
+
+*.swp
+
+# Mac
+.DS_Store
+
+# Frontend specific
+frontend/coverage
+frontend/src/__tests__/**/*.test.*.snap

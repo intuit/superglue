@@ -1,0 +1,55 @@
+{
+  "extends": ["airbnb", "prettier", "prettier/react"],
+  "plugins": ["react", "prettier"],
+  "parser": "babel-eslint",
+  "rules": {
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", "jsx"]
+      }
+    ],
+    "prettier/prettier": "error",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "no-plusplus": "off",
+    "react/prop-types": 0,
+    "max-len": [
+      "error",
+      {
+        "code": 80,
+        "ignoreComments": true,
+        "ignoreUrls": true,
+        "ignoreStrings": true
+      }
+    ],
+    "react/destructuring-assignment": "off",
+    "no-param-reassign": ["error", { "props": false }],
+    "eqeqeq": ["error", "smart"],
+    "no-unused-vars": ["error", { "args": "none" }],
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "button-has-type": false,
+    "react/prefer-stateless-function": [0, { "ignorePureComponents": false }],
+    "no-underscore-dangle": [0],
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-noninteractive-element-to-interactive-role": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "jsx-a11y/label-has-for": "off",
+    "jsx-a11y/interactive-supports-focus": "off",
+    "prefer-destructuring": "off",
+    "camelcase": "off",
+    "no-continue": "off"
+  },
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "globals": { "_": true },
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "./config/webpack-common-config.js"
+      }
+    }
+  }
+}
