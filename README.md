@@ -1,5 +1,7 @@
 # Superglue
 
+[![Join the chat at https://gitter.im/intuit/superglue](https://badges.gitter.im/intuit/superglue.svg)](https://gitter.im/intuit/superglue?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Superglue is a lineage-tracking tool to help visualize
 the propagation of data through complex pipelines.
 
