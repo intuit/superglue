@@ -1,7 +1,5 @@
 #root {
   position: relative;
-  @include flex(column);
-  justify-content: center;
   background: $gray08;
   padding: 2em;
   box-sizing: border-box;
