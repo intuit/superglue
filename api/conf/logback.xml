@@ -3,7 +3,7 @@
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>${application.home:-.}/logs/application.log</file>
         <encoder>
-            <pattern>%date [%level] from %logger in %thread - %message%n%xException</pattern>
+            <pattern>%d{yy/MM/dd HH:mm:ss}; thread=%thread; level=%p; %marker; class=%c; method=%method; lineNumber=%L; msg=%message%n%xException</pattern>
         </encoder>
     </appender>
     <appender name="FILE" class="ch.qos.logback.core.ConsoleAppenderr">
@@ -27,7 +27,7 @@
     <logger name="application" level="INFO" />
     <logger name="slick.jdbc.JdbcBackend.statement"  level="INFO" />
     <logger name="logger.org.jdbcdslog.StatementLogger"  level="INFO" />
-    <logger name="akka" level="DEBUG" />
+    <logger name="akka" level="INFO" />
     <root level="INFO">
         <appender-ref ref="ASYNCFILE" />
         <appender-ref ref="ASYNCSTDOUT" />

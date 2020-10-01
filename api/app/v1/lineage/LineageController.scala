@@ -4,6 +4,7 @@ import com.intuit.superglue.lineage.model.Graph
 import javax.inject.Inject
 import play.api.libs.json.Json
 import play.api.mvc._
+import play.api.Logger
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
@@ -17,6 +18,8 @@ import scala.util.{Failure, Success, Try}
 class LineageController @Inject()(cc: LineageControllerComponents)
   (implicit ec: ExecutionContext)
   extends LineageBaseController(cc) {
+
+  val logger = Logger(this.getClass())
 
   /**
     * The handler for the endpoint {{{GET /v1/lineage/table/:name}}}.
@@ -100,7 +103,11 @@ class LineageController @Inject()(cc: LineageControllerComponents)
         // Produce a proper HTTP response for different success cases from LineageService
         lineage.transform {
           // A failure fetching lineage produces a 500 error code
-          case Failure(_) => Success(InternalServerError(s"""Unexpected error constructing lineage for table "$name""""))
+          case Failure(ex: Throwable) =>
+            logger.error(s"""Unexpected error constructing lineage for table "$name"""",ex)
+            Success(
+              InternalServerError(s"""Unexpected error constructing lineage for table "$name"""")
+            )
           // A successful query that is empty produces a 404
           case Success(Graph(nodes, links)) if nodes.isEmpty && links.isEmpty => Success(NotFound(s"""Table "$name" not found"""))
           // Any other successful query produces a 200 with the JSON graph
