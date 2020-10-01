@@ -49,6 +49,8 @@ class LineageController @Inject()(cc: LineageControllerComponents)
       def lookupTableLineage(backwardDepth: Option[Int], forwardDepth: Option[Int]): Future[Graph] = {
         // If only one depth parameter is given, set the other one to zero.
         val (bwDepth, fwDepth) = (backwardDepth, forwardDepth) match {
+          // Query parameter ?fw=0&bw=0 produces full forward lineage
+          case (Some(0), Some(0)) => (Some(0), None)
           // Query parameter ?bw=0 produces full forward lineage
           case (Some(0), None) => (Some(0), None)
           // Query parameter ?fw=0 produces full backward lineage
