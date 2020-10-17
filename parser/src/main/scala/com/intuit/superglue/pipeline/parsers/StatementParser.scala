@@ -7,5 +7,5 @@ import com.intuit.superglue.pipeline.Metadata.StatementMetadataFragment
   * some metadata from it.
   */
 trait StatementParser {
-  def parseStatement(statement: String): StatementMetadataFragment
+  def parseStatement(statement: String, dialect: Option[String] = None): StatementMetadataFragment
 }

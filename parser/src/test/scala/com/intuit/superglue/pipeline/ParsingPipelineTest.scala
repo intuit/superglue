@@ -38,10 +38,10 @@ class ParsingPipelineTest extends ScriptInputSpec with FsSpec {
 
       // Create a test InputProvider with hardcoded "inputs"
       val testProvider = TestScriptProvider(List(
-        TestScriptInput("fake/script/fileA.sql", "sql", "create table output like input including projections"),
-        TestScriptInput("fake/script/fileB.hql", "sql_hive", "some hive sql script"),
-        TestScriptInput("nonsense/fileC.xql", "sql_xray", "some nonexistant sql strain script"),
-        TestScriptInput("nonsense/fileD.blah", "nonsense", "not even a sql file"),
+        TestScriptInput("fake/script/fileA.sql", "sql", None, "create table output like input including projections"),
+        TestScriptInput("fake/script/fileB.hql", "sql_hive", Some("HIVE"), "some hive sql script"),
+        TestScriptInput("nonsense/fileC.xql", "sql_xray", None, "some nonexistant sql strain script"),
+        TestScriptInput("nonsense/fileD.blah", "nonsense", None, "not even a sql file"),
       ))
 
       // Create a Source that reads from the testProvider

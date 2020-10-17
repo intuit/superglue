@@ -2,6 +2,7 @@ package com.intuit.superglue.pipeline.parsers
 
 import com.intuit.superglue.pipeline.Metadata._
 import com.intuit.superglue.pipeline.parsers
+import org.apache.calcite.sql.SqlDialect.DatabaseProduct
 import org.apache.calcite.sql._
 import org.apache.calcite.sql.ddl.{SqlCreateTable, SqlCreateView}
 import org.apache.calcite.sql.parser.SqlParser
@@ -12,18 +13,33 @@ import org.apache.calcite.sql.validate.SqlConformanceEnum
 import scala.util.{Failure, Success, Try}
 
 class CalciteStatementParser extends StatementParser {
-  private val calciteConfig: SqlParser.Config = SqlParser.configBuilder()
-    .setParserFactory(SqlDdlParserImpl.FACTORY)
-    .setConformance(SqlConformanceEnum.MYSQL_5)
-    .build()
+  private val defaultCalciteConfig: SqlParser.Config = SqlParser.config()
+    .withParserFactory(SqlDdlParserImpl.FACTORY)
+    .withConformance(SqlConformanceEnum.MYSQL_5)
 
   /**
     * Parses the provided string as SQL using the Calcite parser.
+    * Dialect must be one of [[DatabaseProduct]] if provided. Default to MYSQL_5 mode if not provided.
     *
     * @return The [[StatementMetadataFragment]] created by analyzing the
     *         contents of the SQL statement.
     */
-  override def parseStatement(statement: String): StatementMetadataFragment = {
+  override def parseStatement(statement: String, dialect: Option[String]): StatementMetadataFragment = {
+    // Get DatabaseProduct for the dialect config
+    // For backward compatibility fall back to MYSQL_5 SQL compatibility mode if not provided).
+    // Return IllegalArgumentException if an invalid dialect name is provided.
+    val calciteConfig = dialect match {
+      case Some(value) => Try {
+        DatabaseProduct.valueOf(value.toUpperCase)
+      } match {
+        case Success(value) => value.getDialect.configureParser(defaultCalciteConfig)
+        case Failure(exception) =>
+          return StatementMetadataFragment(getClass.getName,
+            List(new IllegalArgumentException(s"Cannot find SQL dialect ${dialect}", exception)))
+      }
+      case None => defaultCalciteConfig
+    }
+
     val fragment: Try[StatementMetadataFragment] = Try {
       val parser = SqlParser.create(statement, calciteConfig)
       val stmt = parser.parseStmt()

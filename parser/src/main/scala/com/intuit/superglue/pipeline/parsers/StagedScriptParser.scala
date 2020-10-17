@@ -111,7 +111,7 @@ abstract class StagedScriptParser(
         val statementParseStartTime = LocalDateTime.now()
 
         // Parse the statement and get the statement metadata back.
-        val metadataFragment = statementParser.parseStatement(statement)
+        val metadataFragment = statementParser.parseStatement(statement, input.dialect)
 
         // Metadata collected about this one statement
         StatementMetadata(

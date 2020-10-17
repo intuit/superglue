@@ -45,7 +45,7 @@ case class ScriptFileProvider(private val config: FileInputConfig)(implicit fs: 
 
       // Create a FileInput for each path that has a kind
       .map { case (path: Path, kind: Option[String]) =>
-        ScriptFileInput(path, basePath.relativize(path).toString, kind.get)
+        ScriptFileInput(path, basePath.relativize(path).toString, kind.get, config.dialect)
       }
   }
 }

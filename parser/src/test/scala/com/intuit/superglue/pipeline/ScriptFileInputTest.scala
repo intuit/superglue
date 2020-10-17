@@ -14,7 +14,7 @@ class ScriptFileInputTest extends FsSpec {
     val testFile = f.root.resolve("/test/file.txt")
     Files.write(testFile, "The quick brown fox jumped over the lazy dog".getBytes(Charset.defaultCharset()))
 
-    val input = ScriptFileInput(testFile, "test.txt", "TXT")
+    val input = ScriptFileInput(testFile, "test.txt", "TXT", None)
     val testContents = input.readInputStream { inputStream =>
       new BufferedReader(new InputStreamReader(inputStream)).lines().collect(Collectors.joining("\n"))
     }
