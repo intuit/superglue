@@ -10,6 +10,7 @@ object Metadata {
     scriptName: String,
     scriptSource: String,
     scriptKind: String,
+    scriptDialect: Option[String],
     scriptParser: String,
     scriptParseStartTime: LocalDateTime,
     scriptParseEndTime: LocalDateTime,

@@ -20,7 +20,7 @@ dependencies {
     implementation "io.tmos:arm4s_${scala_minor_version}:1.1.0"
 
     // Elasticsearch client
-    implementation "com.sksamuel.elastic4s:elastic4s-http_${scala_minor_version}:6.5.1"
+    implementation "com.sksamuel.elastic4s:elastic4s-http_${scala_minor_version}:6.5.7"
 
     // Json serialization
     implementation "com.typesafe.play:play-json_${scala_minor_version}:2.6.10"

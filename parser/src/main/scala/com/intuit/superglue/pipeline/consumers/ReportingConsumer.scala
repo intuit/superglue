@@ -125,6 +125,7 @@ object ReportingConsumer {
     scriptName: String,
     scriptSource: String,
     scriptKind: String,
+    scriptDialect: Option[String],
     scriptParser: String,
     scriptParseStartTime: LocalDateTime,
     scriptParseEndTime: LocalDateTime,
@@ -141,6 +142,7 @@ object ReportingConsumer {
         scriptMetadata.scriptName,
         scriptMetadata.scriptSource,
         scriptMetadata.scriptKind,
+        scriptMetadata.scriptDialect,
         scriptMetadata.scriptParser,
         scriptMetadata.scriptParseStartTime,
         scriptMetadata.scriptParseEndTime,
@@ -178,7 +180,7 @@ object ReportingConsumer {
     totalOccurrences: Int = 0,
     failedOccurrences: Int = 0,
   ) {
-    def +(other: BreakdownReportElement) = BreakdownReportElement(
+    def +(other: BreakdownReportElement): BreakdownReportElement = BreakdownReportElement(
       totalOccurrences + other.totalOccurrences,
       failedOccurrences + other.failedOccurrences,
     )
