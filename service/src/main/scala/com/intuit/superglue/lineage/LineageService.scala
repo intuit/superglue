@@ -58,11 +58,15 @@ class LineageService(val repository: SuperglueRepository) {
     if (backwardFringe.isEmpty && forwardFringe.isEmpty) return Future.successful(traversed)
     if (backwardDepth.contains(0) && forwardDepth.contains(0)) return Future.successful(traversed)
 
-    // Don't traverse backward if the backward depth is zero
-    val backwardLineageViews = if (backwardDepth.contains(0)) Future.successful(Set.empty) else {
-      // Gets the backward lineage for a given set of tables by querying the cache
-      getLineageViewResultSet(backwardFringe, Output)
-        .map(_.filter(view => !backwardVisited.contains(view.outputTableId)))
+
+    val backwardLineageViews = backwardDepth match {
+      // Don't traverse backward if the backward depth is zero
+      case Some(backwordDepthValue) if backwordDepthValue == 0 =>
+        Future.successful(Set.empty)
+      case _ =>
+        // Gets the backward lineage for a given set of tables by querying the cache
+        getLineageViewResultSet(backwardFringe, Output)
+          .map(_.filter(view => !backwardVisited.contains(view.outputTableId)))
     }
 
     // Don't traverse forward if the forward depth is zero
