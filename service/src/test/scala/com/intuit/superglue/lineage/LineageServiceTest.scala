@@ -12,7 +12,7 @@ import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.language.postfixOps
 
-class LineageServicLineageServiceTesteTest extends FlatSpec {
+class LineageServiceTest extends FlatSpec {
 
   private def makeRepository(views: Set[LineageView]) = new SuperglueRepository {
     override def initialize(testMode: Boolean): Future[Unit] = Future.successful(())
