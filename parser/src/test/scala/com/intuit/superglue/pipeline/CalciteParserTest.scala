@@ -334,4 +334,24 @@ class CalciteParserTest extends FlatSpec {
     assert(metadata.inputObjects.contains("TABLE_C"))
     assert(metadata.inputObjects.contains("TABLE_D"))
   }
+
+  it should "parse a CREATE TABLE statement with MYSQL identifier quoting" in {
+    val metadata = parser.parseStatement( "CREATE TABLE `tableA` (`column1` int)", Some("mysql"))
+    assert(metadata.statementType.contains("CREATE_TABLE"))
+    assert(metadata.outputObjects.contains("tableA"))
+  }
+
+  it should "parse a CREATE TABLE statement with MSSQL identifier quoting" in {
+    val metadata = parser.parseStatement("CREATE TABLE [tableA] ([column1] int)", Some("mssql"))
+    assert(metadata.statementType.contains("CREATE_TABLE"))
+    assert(metadata.outputObjects.contains("tableA"))
+  }
+
+  it should "return IllegalArgumentException when an unknown dialect provided" in {
+    val metadata = parser.parseStatement("CREATE TABLE tableA (column1 int)", Some("unknown_dialect"))
+    assert(metadata.errors.exists {
+      case e: IllegalArgumentException => e.getMessage == "Cannot find SQL dialect unknown_dialect"
+      case _ => false
+    })
+  }
 }

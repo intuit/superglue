@@ -173,7 +173,7 @@ class ScriptFileProviderTest extends FsSpec {
     assert(actual == expected)
   }
 
-  it should "annotate the inputKind of each input" in {
+  it should "annotate the inputKind and inputDialect of each input" in {
     val f = Fixture(List(
       "/test/script1.sql",
       "/test/script2.hql",
@@ -183,10 +183,12 @@ class ScriptFileProviderTest extends FsSpec {
     val sqlConfig = FileInputConfig(
       includes = List("glob:**.sql"),
       kind = Some("sql"),
+      dialect = Some("vertica"),
       base = "/",
     )
     val hqlConfig = FileInputConfig(
       includes = List("glob:**.hql"),
+      dialect = Some("hive"),
       base = "/",
     )
     val otherConfig = FileInputConfig(
@@ -197,11 +199,11 @@ class ScriptFileProviderTest extends FsSpec {
     val hqlProvider = new ScriptFileProvider(hqlConfig)(f.fs)
     val otherProvider = new ScriptFileProvider(otherConfig)(f.fs)
 
-    val sqlExpected = List(("test/script1.sql", "sql"))
-    val hqlExpected = List(("test/script2.hql", "sql_hive"))
-    val otherExpected = List.empty[(String, String)]
+    val sqlExpected = List(("test/script1.sql", "sql", Some("vertica")))
+    val hqlExpected = List(("test/script2.hql", "sql_hive", Some("hive")))
+    val otherExpected = List.empty[(String, String, Option[String])]
 
-    def fn(p: ScriptProvider) = p.stream().map(i => i.name -> i.kind).toList
+    def fn(p: ScriptProvider) = p.stream().map(i => Tuple3(i.name, i.kind, i.dialect)).toList
     val sqlActual = fn(sqlProvider)
     val hqlActual = fn(hqlProvider)
     val otherActual = fn(otherProvider)

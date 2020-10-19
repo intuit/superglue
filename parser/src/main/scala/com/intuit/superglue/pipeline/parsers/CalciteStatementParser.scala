@@ -26,16 +26,16 @@ class CalciteStatementParser extends StatementParser {
     */
   override def parseStatement(statement: String, dialect: Option[String]): StatementMetadataFragment = {
     // Get DatabaseProduct for the dialect config
-    // For backward compatibility fall back to MYSQL_5 SQL compatibility mode if not provided).
+    // For backward compatibility fall back to default (MYSQL_5 SQL compatibility mode and Oracle Lex) if not provided.
     // Return IllegalArgumentException if an invalid dialect name is provided.
     val calciteConfig = dialect match {
-      case Some(value) => Try {
-        DatabaseProduct.valueOf(value.toUpperCase)
+      case Some(dialectValue) => Try {
+        DatabaseProduct.valueOf(dialectValue.toUpperCase)
       } match {
-        case Success(value) => value.getDialect.configureParser(defaultCalciteConfig)
+        case Success(databaseProduct) => databaseProduct.getDialect.configureParser(defaultCalciteConfig)
         case Failure(exception) =>
           return StatementMetadataFragment(getClass.getName,
-            List(new IllegalArgumentException(s"Cannot find SQL dialect ${dialect}", exception)))
+            List(new IllegalArgumentException(s"Cannot find SQL dialect ${dialectValue}", exception)))
       }
       case None => defaultCalciteConfig
     }
