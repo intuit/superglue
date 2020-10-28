@@ -15,18 +15,18 @@ import scala.util.{Failure, Success, Try}
 class CalciteStatementParser extends StatementParser {
   private val defaultCalciteConfig: SqlParser.Config = SqlParser.config()
     .withParserFactory(SqlDdlParserImpl.FACTORY)
-    .withConformance(SqlConformanceEnum.MYSQL_5)
+    .withConformance(SqlConformanceEnum.BABEL)
 
   /**
     * Parses the provided string as SQL using the Calcite parser.
-    * Dialect must be one of [[DatabaseProduct]] if provided. Default to MYSQL_5 mode if not provided.
+    * Dialect must be one of [[DatabaseProduct]] if provided. Default to BABEL mode if not provided.
     *
     * @return The [[StatementMetadataFragment]] created by analyzing the
     *         contents of the SQL statement.
     */
   override def parseStatement(statement: String, dialect: Option[String]): StatementMetadataFragment = {
     // Get DatabaseProduct for the dialect config
-    // For backward compatibility fall back to default (MYSQL_5 SQL compatibility mode and Oracle Lex) if not provided.
+    // For backward compatibility fall back to default (BABEL SQL compatibility mode and Oracle Lex) if not provided.
     // Return IllegalArgumentException if an invalid dialect name is provided.
     val calciteConfig = dialect match {
       case Some(dialectValue) => Try {
