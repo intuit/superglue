@@ -40,7 +40,7 @@ dependencies {
     implementation "info.picocli:picocli:3.9.5"
 
     // Elasticsearch client
-    implementation "com.sksamuel.elastic4s:elastic4s-http_${scalaVersion}:6.5.1"
+    implementation "com.sksamuel.elastic4s:elastic4s-http_${scalaVersion}:6.5.7"
 
     scoverage "org.scoverage:scalac-scoverage-plugin_${scalaVersion}:1.4.0-M5",
               "org.scoverage:scalac-scoverage-runtime_${scalaVersion}:1.4.0-M5"

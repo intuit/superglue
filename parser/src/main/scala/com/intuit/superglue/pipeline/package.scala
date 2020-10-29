@@ -7,6 +7,7 @@ package object pipeline {
   case class FileInputConfig(
     base: String,
     kind: Option[String] = None,
+    dialect: Option[String] = None,
     includes: List[String] = List.empty,
     excludes: List[String] = List.empty,
   )

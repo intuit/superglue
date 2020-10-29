@@ -53,6 +53,7 @@ class ConsoleConsumerTest extends FlatSpec {
       scriptName = "One",
       scriptSource = "TestSource",
       scriptKind = "TestKind",
+      scriptDialect = None,
       scriptParser = getClass.getName,
       scriptParseStartTime = testTime,
       scriptParseEndTime = testTime,

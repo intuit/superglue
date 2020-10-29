@@ -18,7 +18,8 @@ import scala.util.Try
 case class ScriptFileInput(
   path: Path,
   name: String,
-  kind: String
+  kind: String,
+  dialect: Option[String]
 ) extends ScriptInput {
   override def source: String = "FILE"
   override def readInputStream[R](f: InputStream => R): Try[R] = Try {

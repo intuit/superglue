@@ -13,6 +13,7 @@ trait ScriptInputSpec extends FlatSpec {
   protected case class TestScriptInput(
     name: String,
     kind: String,
+    dialect: Option[String],
     testScript: String,
   ) extends ScriptInput {
     override def source: String = "TEST"

@@ -58,7 +58,7 @@ class ParserDaoIntegrationTest extends ScriptInputSpec with FsSpec {
     Await.result(superglue.initialize(testMode = true), 1 second)
 
     val testProvider = TestScriptProvider(List(
-      TestScriptInput("fake/script/fileA.sql", "sql",
+      TestScriptInput("fake/script/fileA.sql", "sql", None,
         """
           |INSERT INTO output_table SELECT * FROM input_table
         """.stripMargin),

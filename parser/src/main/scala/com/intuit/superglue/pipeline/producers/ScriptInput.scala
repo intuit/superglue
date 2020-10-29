@@ -14,6 +14,7 @@ import scala.util.Try
 trait ScriptInput {
   def name: String
   def kind: String
+  def dialect: Option[String]
   def source: String
 
   /**
