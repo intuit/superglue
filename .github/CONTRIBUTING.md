@@ -7,6 +7,8 @@ for you to take, but in general:
 
 #### Talk to us!
 
+[![Join the chat at https://gitter.im/intuit/superglue](https://badges.gitter.im/intuit/superglue.svg)](https://gitter.im/intuit/superglue?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 If you're thinking of adding a feature or fixing a bug, make
 sure you know that nobody's already working on it. Check if there's an open
 issue, and if there isn't, feel free to make one! If we know what you're
