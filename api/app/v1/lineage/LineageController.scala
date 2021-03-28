@@ -94,7 +94,7 @@ class LineageController @Inject()(cc: LineageControllerComponents)
           case (None, None)                           => (None, None)
         }
         // reject negative fw or bw values
-        if (backward.get < 0 || forward.get < 0) {return Future.successful(BadRequest("Depth cannot be negative"))}
+        if (backward.getOrElse(0) < 0 || forward.getOrElse(0) < 0) {return Future.successful(BadRequest("Depth cannot be negative"))}
 
         // Pass the parsed query values to the lookup helper to get lineage
         val lineage = lookupTableLineage(backward, forward)
