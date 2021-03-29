@@ -33,16 +33,28 @@ class LineageService(val repository: SuperglueRepository) {
       case _ =>
     }
 
-    val futureGraph = for {
-      table <- repository.tableRepository.getByName(tableName)
-      tablePK = table.head.id
-    } yield tableLineage(Set(tablePK), Set(tablePK), Graph.empty, backwardDepth, forwardDepth)
-    futureGraph.flatten.map { case Graph(nodes, links) =>
-      val annotatedNodes = nodes.map {
-        case TableNode(pk, name, _) if name.toLowerCase == tableName.toLowerCase => TableNode(pk, name, "selected")
-        case other => other
+    if (backwardDepth.contains(0) && forwardDepth.contains(0)) {
+      // return selected table with 0 depth
+      val singleNode = for {
+        table <- repository.tableRepository.getByName(tableName)
+        tableHead = table.head
+      } yield TableNode(tableHead.id, tableHead.name)
+      singleNode.map { case TableNode(pk, name, _) =>
+        Graph(Set(TableNode(pk, name, "selected")), Set.empty[Link])
       }
-      Graph(annotatedNodes, links)
+    }
+    else {
+      val futureGraph = for {
+        table <- repository.tableRepository.getByName(tableName)
+        tablePK = table.head.id
+      } yield tableLineage(Set(tablePK), Set(tablePK), Graph.empty, backwardDepth, forwardDepth)
+      futureGraph.flatten.map { case Graph(nodes, links) =>
+        val annotatedNodes = nodes.map {
+          case TableNode(pk, name, _) if name.toLowerCase == tableName.toLowerCase => TableNode(pk, name, "selected")
+          case other => other
+        }
+        Graph(annotatedNodes, links)
+      }
     }
   }
 
