@@ -30,16 +30,4 @@ export class SelectDepth extends React.Component {
   }
 };
 
-
-// const mapState = (state) => ({
-//   depth: state.value,
-// });
-// const mapDispatch = (dispatch, { history }) => {
-//   return {
-//     getSingleProduct: (id) => dispatch(fetchSingleProduct(id)),
-//     addProduct: (id, quantity, price, product) => dispatch(fetchAddProduct(id, quantity, price, product))
-//   };
-// };
-// export default connect(mapState, mapDispatch)(SelectDepth);
-
 export default SelectDepth;
