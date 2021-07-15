@@ -29,7 +29,7 @@ We've included a docker configuration to set up all of the services that
 superglue needs to run. To launch the development image, run
 
 ```
-``
+docker-compose -f deployments/development/docker-compose.yml up
 ```
 
 This launches
