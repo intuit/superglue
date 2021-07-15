@@ -5,6 +5,7 @@ import LineageActionTypes from 'Constants/LineageActionTypes';
 const initialState = Map({
   graph: { nodes: [], edges: [] },
   loadingStatus: LoadingState.NOT_LOADED,
+  depth: "1",
 });
 
 const LineageReducer = (state = initialState, action) => {
@@ -13,6 +14,8 @@ const LineageReducer = (state = initialState, action) => {
       return state.set('graph', action.data);
     case LineageActionTypes.SET_LINEAGE_LOADING:
       return state.set('loadingStatus', action.state);
+    case LineageActionTypes.SET_DEPTH:
+      return state.set('depth', action.depth)
     default:
       return state;
   }
