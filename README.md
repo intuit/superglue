@@ -11,8 +11,8 @@ the propagation of data through complex pipelines.
 
 Dependencies:
 
-- JDK 8
-- Docker
+* JDK 8
+* Docker
 
 The first-time setup takes about five minutes.
 
@@ -34,10 +34,10 @@ docker-compose -f deployments/development/docker-compose.yml up
 
 This launches
 
-- A MySQL database on port `3314`
-- The superglue frontend at `http://localhost:8080`
-- The superglue backend at `http://localhost:8080/api`
-- An elasticsearch server at `http://localhost:8080/elasticsearch`
+* A MySQL database on port `3314`
+* The superglue frontend at `http://localhost:8080`
+* The superglue backend at `http://localhost:8080/api`
+* An elasticsearch server at `http://localhost:8080/elasticsearch`
 
 > **Note**: By default, docker allocates 2GB of memory for containers, but you
 > may need to increase this limit, otherwise elasticsearch will shut down.
