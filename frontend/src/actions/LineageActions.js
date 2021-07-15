@@ -19,10 +19,14 @@ export const setDepthTraversal = depth => ({
 
 export const getLineageData = (entityName, entityType, entityDepth) => dispatch => {
   dispatch(setLineageLoading(LoadingState.LOADING));
-  return API.get(`lineage/${entityType}/${entityName}/${entityDepth}`)
+  dispatch(setDepthTraversal(entityDepth))
+  const params = entityDepth === 'Full' ? '' : `?bw=${entityDepth}&fw=${entityDepth}`
+
+  return API.get(`lineage/${entityType}/${entityName}${params}`)
     .then(res => {
       dispatch(setLineageData(res.data));
       dispatch(setLineageLoading(LoadingState.FINISHED_SUCCESS));
+
     })
     .catch(err => {
       /* istanbul ignore next */ console.error(err);
