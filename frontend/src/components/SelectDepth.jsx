@@ -1,8 +1,6 @@
 import React from 'react';
-import { getLineageData } from '../actions/LineageActions';
 
-
-export class SelectDepth extends React.Component {
+class SelectDepth extends React.Component {
   constructor(props){
     super(props);
       this.state = { value: '1'};

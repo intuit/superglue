@@ -1,6 +1,6 @@
 import React from 'react';
 import Lineage from 'Components/Lineage';
-import { getLineageData, setDepthTraversal } from '../actions/LineageActions';
+import { getLineageData} from '../actions/LineageActions';
 import { connect } from 'react-redux';
 import SelectDepth from '../components/SelectDepth';
 
@@ -46,7 +46,6 @@ export class Dashboard extends React.Component {
 
 /* istanbul ignore next */ const mapDispatchToProps = dispatch => ({
   getLineageData: (name, type, depth) => dispatch(getLineageData(name, type, depth)),
-  setDepthTraversal: (depth) => dispatch(setDepthTraversal(depth)),
 });
 
 export default connect(
