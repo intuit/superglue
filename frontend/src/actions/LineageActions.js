@@ -12,9 +12,14 @@ export const setLineageData = data => ({
   data,
 });
 
-export const getLineageData = (entityName, entityType) => dispatch => {
+export const setDepthTraversal = depth => ({
+  type: LineageActionTypes.SET_DEPTH,
+  depth
+})
+
+export const getLineageData = (entityName, entityType, entityDepth) => dispatch => {
   dispatch(setLineageLoading(LoadingState.LOADING));
-  return API.get(`lineage/${entityType}/${entityName}`)
+  return API.get(`lineage/${entityType}/${entityName}/${entityDepth}`)
     .then(res => {
       dispatch(setLineageData(res.data));
       dispatch(setLineageLoading(LoadingState.FINISHED_SUCCESS));

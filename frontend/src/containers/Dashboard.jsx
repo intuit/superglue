@@ -8,6 +8,7 @@ export class Dashboard extends React.Component {
     this.props.getLineageData(
       this.props.match.params.entityName,
       this.props.match.params.entityType,
+      this.props.match.params.entityDepth
     );
   }
 
@@ -18,6 +19,7 @@ export class Dashboard extends React.Component {
       this.props.getLineageData(
         nextProps.match.params.entityName,
         nextProps.match.params.entityType,
+        nextProps.match.params.entityDepth,
       );
       return true;
     }
