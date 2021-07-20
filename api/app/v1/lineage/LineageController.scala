@@ -102,7 +102,7 @@ class LineageController @Inject()(cc: LineageControllerComponents)
         // Produce a proper HTTP response for different success cases from LineageService
         lineage.transform {
           // A failure fetching lineage produces a 500 error code
-          case Failure(_) => Success(InternalServerError(s"""Unexpected error constructing lineage for table "$name""""))
+          case Failure(_) => Success(NotFound(s"""Unexpected error constructing lineage for table "$name""""))
           // A successful query that is empty produces a 404
           case Success(Graph(nodes, links)) if nodes.isEmpty && links.isEmpty => Success(NotFound(s"""Table "$name" not found"""))
           // Any other successful query produces a 200 with the JSON graph
