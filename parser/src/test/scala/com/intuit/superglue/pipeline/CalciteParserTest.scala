@@ -354,4 +354,16 @@ class CalciteParserTest extends FlatSpec {
       case _ => false
     })
   }
+
+  it should "parse a SELECT statement including RLIKE operator to test calcite upgrade to 1.27.0" in {
+    val metadata = parser.parseStatement("SELECT cola from tableA where MAX(realm_email) RLIKE '.+@.+\\..+'")
+    assert(metadata.statementType.contains("SELECT"))
+    assert(metadata.inputObjects.contains("TABLEA"))
+  }
+
+  it should "parse a SELECT statement including NOT RLIKE operator to test calcite upgrade to 1.27.0" in {
+    val metadata = parser.parseStatement("select cola from tableA where MAX(realm_email) not rlike '.+@.+\\..+'")
+    assert(metadata.statementType.contains("SELECT"))
+    assert(metadata.inputObjects.contains("TABLEA"))
+  }
 }
